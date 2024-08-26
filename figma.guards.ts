@@ -17,3 +17,8 @@ export const isVariableAlias = (
 ): modeValue is Figma.VariableAlias => {
   return (modeValue as Figma.VariableAlias).type === "VARIABLE_ALIAS";
 };
+export const isNotVariableAlias = (
+  modeValue: string | number | boolean | Figma.Color | Figma.VariableAlias
+): modeValue is string | number | boolean | Figma.Color => {
+  return (modeValue as Figma.VariableAlias).type !== "VARIABLE_ALIAS";
+};

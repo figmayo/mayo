@@ -22,8 +22,12 @@
     "declaration": true,
     "declarationDir": "build/types",
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./"
   },
-  "include": ["src/**/*", "*.d.ts", "*.guards.ts", "dist/**/*"],
-  "exclude": ["./node_modules"]
+  "include": ["src/**/*", "*.d.ts", "*.guards.ts", "_dist/**/*"],
+  "exclude": ["./node_modules", "__tests__/**/*"],
+  "ts-node": {
+    "files": true
+  }
 }

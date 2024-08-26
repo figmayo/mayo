@@ -7,7 +7,7 @@ esbuild
     bundle: true,
     outdir: "dist",
     platform: "node", // Target platform
-    sourcemap: true,
+    sourcemap: false,
     target: ["node14"],
     format: "cjs", // or 'esm' for ES Modules
     tsconfig: "tsconfig.json",

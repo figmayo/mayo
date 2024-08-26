@@ -1,8 +1,3 @@
-import "dotenv/config";
-import * as fs from "fs";
-import { logger } from "helpers";
-import ky from "ky";
-
 // Utility function to resolve Figma variable types to TypeScript types
 export const resolveType = (figmaType: Figma.Variable["resolvedType"]) => {
   switch (figmaType) {
@@ -21,7 +16,7 @@ export const resolveType = (figmaType: Figma.Variable["resolvedType"]) => {
 /**
  * Generate return type definitions for each Figma variable
  */
-const generateVariableTypeDefinitions = (
+export const generateVariableTypeDefinitions = (
   variables: Record<string, Figma.Variable>
 ) => {
   const types = Object.values(variables)
@@ -37,7 +32,7 @@ const generateVariableTypeDefinitions = (
 /**
  * Generate return type definitions for each Figma variable
  */
-const generateColorVariableTypeDefinitions = (
+export const generateColorVariableTypeDefinitions = (
   variables: Record<string, Figma.Variable>
 ) => {
   const types = Object.values(variables)
@@ -51,7 +46,7 @@ const generateColorVariableTypeDefinitions = (
 /**
  * Generate union of modes for each variable key
  */
-const generateVariableModeTypeDefinitions = (
+export const generateVariableModeTypeDefinitions = (
   collections: Record<string, Figma.VariableCollection>,
   variables: Record<string, Figma.Variable>
 ) => {
@@ -68,7 +63,7 @@ const generateVariableModeTypeDefinitions = (
 /**
  * Generate return type definitions for each Figma variable grouped into collections
  */
-const generateCollectionTypeDefinitions = (
+export const generateCollectionTypeDefinitions = (
   collections: Record<string, Figma.VariableCollection>,
   variables: Record<string, Figma.Variable>
 ) => {
@@ -93,7 +88,7 @@ const generateCollectionTypeDefinitions = (
  *
  * Generate union of modes for each collection key
  */
-const generateCollectionModeTypeDefinitions = (
+export const generateCollectionModeTypeDefinitions = (
   collections: Record<string, Figma.VariableCollection>
 ) => {
   const types = Object.values(collections)
@@ -109,7 +104,7 @@ const generateCollectionModeTypeDefinitions = (
 /**
  * Generate union of collection keys for each mode key
  */
-const generateModeCollectionTypeDefinitions = (
+export const generateModeCollectionTypeDefinitions = (
   collections: Record<string, Figma.VariableCollection>
 ) => {
   // Map to store mode names with a set of collection names
@@ -141,7 +136,7 @@ const generateModeCollectionTypeDefinitions = (
 /**
  * Generate union of variable keys for each mode key
  */
-const generateModeVariableTypeDefinitions = (
+export const generateModeVariableTypeDefinitions = (
   collections: Record<string, Figma.VariableCollection>,
   variables: Record<string, Figma.Variable>
 ) => {
@@ -171,70 +166,3 @@ const generateModeVariableTypeDefinitions = (
   // Return the interface string
   return `export interface VariableModeTypes {\n${types}\n}\n\n`;
 };
-
-const getLocalVariables = async ({
-  file_key,
-  access_token,
-}: {
-  access_token: string;
-  file_key: string;
-}) => {
-  return await ky
-    .get(`https://api.figma.com/v1/files/${file_key}/variables/local`, {
-      headers: {
-        "X-Figma-Token": access_token,
-      },
-    })
-    .json<Figma.Api.VariableResult>();
-};
-(async () => {
-  if (!process.env.FIGMA_TOKENS_PAT || !process.env.FIGMA_TOKENS_FILEKEY) {
-    throw new Error(
-      "FIGMA_TOKENS_PAT and FIGMA_TOKENS_FILEKEY environemnt variables are required"
-    );
-  }
-
-  logger.info("Getting variables from Figma");
-
-  const localVariables = await getLocalVariables({
-    access_token: process.env.FIGMA_TOKENS_PAT,
-    file_key: process.env.FIGMA_TOKENS_FILEKEY,
-  });
-
-  let outputDir = `${process.env.FIGMA_VARIABLES_PATH ?? "."}/_generated`;
-
-  logger.info(`Writing variables to:`, outputDir);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir);
-  }
-  fs.writeFileSync(
-    `${outputDir}/data.json`,
-    JSON.stringify(localVariables, null, 2)
-  );
-
-  fs.writeFileSync(
-    `${outputDir}/types.ts`,
-    generateVariableTypeDefinitions(localVariables.meta.variables) +
-      generateColorVariableTypeDefinitions(localVariables.meta.variables) +
-      generateCollectionTypeDefinitions(
-        localVariables.meta.variableCollections,
-        localVariables.meta.variables
-      ) +
-      generateVariableModeTypeDefinitions(
-        localVariables.meta.variableCollections,
-        localVariables.meta.variables
-      ) +
-      generateCollectionModeTypeDefinitions(
-        localVariables.meta.variableCollections
-      ) +
-      generateModeCollectionTypeDefinitions(
-        localVariables.meta.variableCollections
-      ) +
-      generateModeVariableTypeDefinitions(
-        localVariables.meta.variableCollections,
-        localVariables.meta.variables
-      )
-  );
-
-  logger.log("Sync'd variables from Figma");
-})();

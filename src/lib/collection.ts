@@ -2,13 +2,13 @@ import {
   CollectionModes,
   CollectionTypes,
   VariableTypes,
-  data as variables,
-} from "../../_generated";
+  variables,
+} from "../../_dist";
 import Multiton from "./multiton";
 import { variable } from "./variable";
 
 export class Collection<
-  K extends keyof CollectionTypes,
+  K extends keyof CollectionTypes
 > extends Multiton<Figma.VariableCollection> {
   // Map of collection IDs and enabled modes by mode name.
   private static _modesState: Map<
@@ -47,10 +47,7 @@ export class Collection<
   }
 
   variable(key: keyof CollectionTypes[K]) {
-    return variable(
-      key as keyof VariableTypes,
-      Collection._modesState.get(this._collection.id)
-    );
+    return variable(key as keyof VariableTypes);
   }
 
   mode(mode?: CollectionModes[K]) {

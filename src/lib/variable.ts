@@ -1,24 +1,16 @@
-import {
-  data as variables,
-  VariableModes,
-  VariableTypes,
-} from "../../_generated";
-import { figmaColorToHex, figmaColorToRgba, pixelfyValue } from "./utils";
+import { variables, VariableTypes } from "../../_dist";
 import { Collection } from "./collection";
+import { figmaColorToHex, figmaColorToRgba, pixelfyValue } from "./utils";
 
+import { isVariableAlias } from "../../figma.guards";
 import Multiton from "./multiton";
 
-export class Variable<K extends keyof VariableTypes>
+export class Variable
   extends Multiton<Figma.Variable>
   implements Variables.Variable
 {
   constructor(private _variable: Figma.Variable) {
     super(_variable);
-  }
-
-  mode(mode?: VariableModes[K]) {
-    this.collection.mode(mode);
-    return this;
   }
 
   get defaultModeId() {
@@ -53,37 +45,26 @@ export class Variable<K extends keyof VariableTypes>
     const variable = this._variable.valuesByMode[modeId];
 
     if (isVariableAlias(variable)) {
-      const variableName = variables.meta.variables[
-        variable.id as keyof typeof variables.meta.variables
-      ].name as keyof VariableTypes;
-      return this.variable(variableName).value;
+      return new Variable(
+        variables.meta.variables[
+          variable.id as keyof typeof variables.meta.variables
+        ]
+      ).resolved();
     } else {
-      return this._variable.valuesByMode[modeId];
+      return variable;
     }
   }
 
-  //@ts-ignore
-  get value() {
-    return this.resolved();
-  }
-
   valueOf() {
-    return this.value;
+    return this.resolved();
   }
 
   toString() {
     return this.valueOf().toString();
   }
-
-  variable(k: keyof VariableTypes) {
-    return variable(k, this._mode);
-  }
 }
 
-export class Boolean<K extends keyof VariableTypes>
-  extends Variable<K>
-  implements Variables.Boolean
-{
+export class Boolean extends Variable implements Variables.Boolean {
   get value() {
     return super.resolved() as boolean;
   }
@@ -95,10 +76,7 @@ export class Boolean<K extends keyof VariableTypes>
     return this;
   }
 }
-export class String<K extends keyof VariableTypes>
-  extends Variable<K>
-  implements Variables.String
-{
+export class String extends Variable implements Variables.String {
   get value() {
     return super.resolved() as string;
   }
@@ -110,10 +88,7 @@ export class String<K extends keyof VariableTypes>
     return this;
   }
 }
-export class Color<K extends keyof VariableTypes>
-  extends Variable<K>
-  implements Variables.Color
-{
+export class Color extends Variable implements Variables.Color {
   get value() {
     return super.resolved() as Figma.Color;
   }
@@ -134,10 +109,7 @@ export class Color<K extends keyof VariableTypes>
     return this;
   }
 }
-export class Float<K extends keyof VariableTypes>
-  extends Variable<K>
-  implements Variables.Float
-{
+export class Float extends Variable implements Variables.Float {
   get value() {
     return super.resolved() as number;
   }
@@ -162,13 +134,17 @@ const typeMap = {
 };
 
 export const variable = <K extends keyof VariableTypes>(
-  key: K,
-  mode?: VariableModes[K]
+  key: K
 ): VariableTypes[K] => {
   const v = Object.values(variables.meta.variables).find((v) => v.name === key);
+
   if (v === undefined) throw new Error(`Variable ${key} not found`);
-  // @ts-ignore
-  return new typeMap[v.resolvedType as keyof typeof typeMap]<K>(
-    v as Figma.Variable
-  ).mode(mode);
+
+  const VariableConstructor = typeMap[
+    v.resolvedType as keyof typeof typeMap
+  ] as unknown as {
+    new (v: Figma.Variable): VariableTypes[K];
+  };
+
+  return new VariableConstructor(v as Figma.Variable);
 };

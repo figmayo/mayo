@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { collection, variable } from "../src/lib";
 
-it("should return the same instance", () => {
+it("should return the same collection instance", () => {
   const c = collection("tests", "Brand");
   const v = variable("is-awesome");
   expect(v.collection.uid).toBe(c.uid);
@@ -11,7 +11,7 @@ it("should return the same instance", () => {
   expect(v.value).toEqual(false);
   c.mode("Light");
   expect(v.value).toEqual(true);
-  v.mode("Dark");
+  c.mode("Dark");
   expect(v.value).toEqual(false);
   v.collection.mode("Light");
   expect(v.value).toEqual(true);

@@ -10,13 +10,9 @@ declare namespace Variables {
 
     get defaultModeId(): string;
     get modeId(): string | undefined;
-    get value(): boolean | Figma.Color | number | string;
 
-    valueOf(): ReturnType<Variable["value"]>;
+    valueOf(): boolean | Figma.Color | number | string;
     toString(): string;
-
-    mode(mode?: VariableModes[K]): Variable<K>;
-    variable(k: keyof VariableTypes): Variable<K>;
   }
   /**
    * Boolean variable class - behaves mostly like a boolean primitive
