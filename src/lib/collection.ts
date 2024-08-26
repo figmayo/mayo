@@ -3,7 +3,7 @@ import {
   CollectionTypes,
   VariableTypes,
   variables,
-} from "../../_dist";
+} from "../../dist";
 import Multiton from "./multiton";
 import { variable } from "./variable";
 

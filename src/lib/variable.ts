@@ -1,4 +1,4 @@
-import { variables, VariableTypes } from "../../_dist";
+import { variables, VariableTypes } from "../../dist";
 import { Collection } from "./collection";
 import { figmaColorToHex, figmaColorToRgba, pixelfyValue } from "./utils";
 
