@@ -4,6 +4,5 @@ npm-debug.log
 coverage
 .nyc_output
 src/_gen/
-src/gen/
 build
 .vscode
