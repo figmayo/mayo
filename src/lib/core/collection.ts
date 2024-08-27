@@ -1,4 +1,5 @@
-import { CollectionModes, CollectionTypes, VariableTypes, variables } from ".";
+import { variables } from ".";
+import type { CollectionModes, CollectionTypes, VariableTypes } from ".";
 import Multiton from "./multiton";
 import { variable } from "./variable";
 

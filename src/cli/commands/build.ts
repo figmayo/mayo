@@ -1,10 +1,11 @@
 import { GEN_PATH } from "../../constants";
 import { GluegunCommand } from "gluegun";
 import { green, red } from "kleur";
+import { execSync } from "child_process";
 
 const command: GluegunCommand = {
   name: "build",
-  run: async ({ print, filesystem, typegen, build }) => {
+  run: async ({ print, filesystem, typegen }) => {
     const localVariables = filesystem.read(
       `${GEN_PATH}/data.json`,
       "json"
@@ -17,31 +18,33 @@ const command: GluegunCommand = {
     // Proceed with the build process
     print.info(green("Building your project..."));
 
-    filesystem.writeAsync(
-      `${GEN_PATH}/types.d.ts`,
-      typegen.generateVariableTypeDefinitions(localVariables.meta.variables) +
-        typegen.generateColorVariableTypeDefinitions(
-          localVariables.meta.variables
-        ) +
-        typegen.generateCollectionTypeDefinitions(
-          localVariables.meta.variableCollections,
-          localVariables.meta.variables
-        ) +
-        typegen.generateVariableModeTypeDefinitions(
-          localVariables.meta.variableCollections,
-          localVariables.meta.variables
-        ) +
-        typegen.generateCollectionModeTypeDefinitions(
-          localVariables.meta.variableCollections
-        ) +
-        typegen.generateModeCollectionTypeDefinitions(
-          localVariables.meta.variableCollections
-        ) +
-        typegen.generateModeVariableTypeDefinitions(
-          localVariables.meta.variableCollections,
-          localVariables.meta.variables
-        )
-    );
+    filesystem
+      .writeAsync(
+        `${GEN_PATH}/types.ts`,
+        typegen.generateVariableTypeDefinitions(localVariables.meta.variables) +
+          typegen.generateColorVariableTypeDefinitions(
+            localVariables.meta.variables
+          ) +
+          typegen.generateCollectionTypeDefinitions(
+            localVariables.meta.variableCollections,
+            localVariables.meta.variables
+          ) +
+          typegen.generateVariableModeTypeDefinitions(
+            localVariables.meta.variableCollections,
+            localVariables.meta.variables
+          ) +
+          typegen.generateCollectionModeTypeDefinitions(
+            localVariables.meta.variableCollections
+          ) +
+          typegen.generateModeCollectionTypeDefinitions(
+            localVariables.meta.variableCollections
+          ) +
+          typegen.generateModeVariableTypeDefinitions(
+            localVariables.meta.variableCollections,
+            localVariables.meta.variables
+          )
+      )
+      .then(() => execSync(`npm run compile:lib`, { stdio: "inherit" }));
 
     print.success(green("Build complete! Your project is ready."));
   },

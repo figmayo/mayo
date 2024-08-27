@@ -9,7 +9,7 @@
  *
  */
 namespace Figma {
-  enum NodeType {
+  export enum NodeType {
     DOCUMENT = "DOCUMENT",
     CANVAS = "CANVAS",
     FRAME = "FRAME",
