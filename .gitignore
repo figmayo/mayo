@@ -3,6 +3,6 @@ node_modules
 npm-debug.log
 coverage
 .nyc_output
-
+src/_gen/
 build
 .vscode
