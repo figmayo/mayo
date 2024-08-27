@@ -1,12 +1,12 @@
 /**
  * The type interfaces for our util classes for working with Figma variables
  */
-declare namespace Variables {
+namespace Variables {
   /**
    * Parent variable class
    */
   export interface Variable {
-    _mode?: VariableModes[K];
+    _mode?: string;
 
     get defaultModeId(): string;
     get modeId(): string | undefined;

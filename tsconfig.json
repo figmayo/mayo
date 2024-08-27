@@ -20,12 +20,16 @@
     "strict": false,
     "target": "es5",
     "declaration": true,
-    "declarationDir": "build/types",
+    "emitDeclarationOnly": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "figma-variables.types": ["src/figma-variables.types.ts"],
+      "figma.types": ["src/figma.types.ts"]
+    }
   },
-  "include": ["src/**/*", "*.d.ts", "*.guards.ts", "dist/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["./node_modules", "__tests__/**/*"],
   "ts-node": {
     "files": true

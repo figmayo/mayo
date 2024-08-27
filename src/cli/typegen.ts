@@ -1,3 +1,5 @@
+/// <reference path="../figma-variables.types.ts" />
+/// <reference path="../figma.types.ts" />
 // Utility function to resolve Figma variable types to TypeScript types
 export const resolveType = (figmaType: Figma.Variable["resolvedType"]) => {
   switch (figmaType) {

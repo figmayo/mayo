@@ -1,7 +1,7 @@
 import { red } from "kleur";
 import { GluegunCommand } from "gluegun";
 import { findCredentials, setPassword } from "keytar";
-import { ACTIVE_KEY, PASSWORD_NAMESPACE, SITE_API } from "../constants";
+import { ACTIVE_KEY, PASSWORD_NAMESPACE, SITE_API } from "../../constants";
 
 const command: GluegunCommand = {
   name: "list",

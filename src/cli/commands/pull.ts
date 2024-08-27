@@ -1,7 +1,7 @@
 import { red, green } from "kleur";
 import { GluegunCommand } from "gluegun";
 import { getPassword } from "keytar";
-import { ACTIVE_KEY, PASSWORD_NAMESPACE } from "../constants";
+import { ACTIVE_KEY, GEN_PATH, PASSWORD_NAMESPACE } from "../../constants";
 
 const command: GluegunCommand = {
   name: "pull",
@@ -41,7 +41,7 @@ const command: GluegunCommand = {
       }
     }
 
-    filesystem.write("dist/data.json", data);
+    filesystem.write(`${GEN_PATH}/data.json`, data);
   },
 };
 

@@ -1,3 +1,4 @@
+import { GEN_PATH } from "../../constants";
 import { GluegunCommand } from "gluegun";
 import { green, red } from "kleur";
 
@@ -5,8 +6,13 @@ const command: GluegunCommand = {
   name: "reset",
   run: async ({ print, filesystem }) => {
     try {
-      const sourceDir = filesystem.path(__dirname, "..", "..", "src/templates");
-      const targetDir = filesystem.path(__dirname, "..", "..", "dist");
+      const sourceDir = filesystem.path(
+        __dirname,
+        "..",
+        "..",
+        "src/cli/templates"
+      );
+      const targetDir = filesystem.path(__dirname, "..", "..", GEN_PATH);
 
       // Ensure the target directory exists
       filesystem.dir(targetDir);

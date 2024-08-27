@@ -8,7 +8,7 @@
  * These should not be confused with the ComponentNode or ComponentSetNode which are the actual nodes in the Figma file.
  *
  */
-declare namespace Figma {
+namespace Figma {
   enum NodeType {
     DOCUMENT = "DOCUMENT",
     CANVAS = "CANVAS",
@@ -35,7 +35,7 @@ declare namespace Figma {
     WASHI_TAPE = "WASHI_TAPE",
   }
 
-  interface Node<T extends NodeType = NodeType> {
+  export interface Node<T extends NodeType = NodeType> {
     // A string uniquely identifying this node within the document.
     id: string;
     // The name given to the node by the user in the tool.
@@ -57,12 +57,12 @@ declare namespace Figma {
     boundVariables?: Record<string, VariableAlias | VariableAlias[]>;
   }
 
-  interface DocumentNode extends Node {
+  export interface DocumentNode extends Node {
     // An array of canvases attached to the document
     children: Node[];
   }
 
-  interface CanvasNode extends Node {
+  export interface CanvasNode extends Node {
     // An array of top level layers on the canvas
     children: Node[];
     // Background color of the canvas.
@@ -79,7 +79,7 @@ declare namespace Figma {
     exportSettings?: ExportSetting[];
   }
 
-  interface FrameNode extends Node {
+  export interface FrameNode extends Node {
     // An array of nodes that are direct children of this node
     children: Node[];
     // If true, layer is locked and cannot be edited
@@ -236,9 +236,9 @@ declare namespace Figma {
     styles: Record<StyleType, string>;
   }
 
-  interface GroupNode extends FrameNode {}
+  export interface GroupNode extends FrameNode {}
 
-  interface SectionNode extends Node {
+  export interface SectionNode extends Node {
     // Whether the contents of the section are visible
     // default: false
     sectionContentsHidden?: boolean;
@@ -263,7 +263,7 @@ declare namespace Figma {
     absoluteRenderBounds: Rectangle;
   }
 
-  interface VectorNode extends Node {
+  export interface VectorNode extends Node {
     // If true, layer is locked and cannot be edited
     // default: false
     locked?: boolean;
@@ -344,25 +344,25 @@ declare namespace Figma {
     >;
   }
 
-  interface BooleanOperationNode extends VectorNode {
+  export interface BooleanOperationNode extends VectorNode {
     // An array of nodes that are being boolean operated on
     children: Node[];
     // A string enum with value of "UNION", "INTERSECT", "SUBTRACT", or "EXCLUDE" indicating the type of boolean operation applied
     booleanOperation: string;
   }
 
-  interface StarNode extends VectorNode {}
+  export interface StarNode extends VectorNode {}
 
-  interface LineNode extends VectorNode {}
+  export interface LineNode extends VectorNode {}
 
-  interface EllipseNode extends VectorNode {
+  export interface EllipseNode extends VectorNode {
     // Start and end angles of the ellipse measured clockwise from the x axis, plus the inner radius for donuts
     arcData: ArcData;
   }
 
-  interface RegularPolygonNode extends VectorNode {}
+  export interface RegularPolygonNode extends VectorNode {}
 
-  interface RectangleNode extends VectorNode {
+  export interface RectangleNode extends VectorNode {
     // Radius of each corner of the rectangle if a single radius is set for all corners
     cornerRadius: number;
     // Array of length 4 of the radius of each corner of the rectangle, starting in the top left and proceeding clockwise
@@ -371,7 +371,7 @@ declare namespace Figma {
     cornerSmoothing: number;
   }
 
-  interface TableNode extends Node {
+  export interface TableNode extends Node {
     // Bounding box of the node in absolute space coordinates
     absoluteBoundingBox: Rectangle;
     // The bounds of the rendered node in the file in absolute space coordinates
@@ -401,7 +401,7 @@ declare namespace Figma {
     strokeWeight: number;
   }
 
-  interface TableCellNode extends Node {
+  export interface TableCellNode extends Node {
     // Bounding box of the node in absolute space coordinates
     absoluteBoundingBox: Rectangle;
     // The bounds of the rendered node in the file in absolute space coordinates
@@ -417,7 +417,7 @@ declare namespace Figma {
     size: Vector;
   }
 
-  interface TextNode extends VectorNode {
+  export interface TextNode extends VectorNode {
     // Text contained within a text box
     characters: string;
     // Style of text including font family and weight (see type style section for more information)
@@ -446,7 +446,7 @@ declare namespace Figma {
     layoutGrow?: number;
   }
 
-  interface SliceNode extends Node {
+  export interface SliceNode extends Node {
     // An array of export settings representing images to export from this node
     exportSettings: ExportSetting[];
     // Bounding box of the node in absolute space coordinates
@@ -459,13 +459,13 @@ declare namespace Figma {
     relativeTransform: Transform;
   }
 
-  interface ComponentNode extends FrameNode {
+  export interface ComponentNode extends FrameNode {
     // A mapping of name to
     // default: {}
     componentPropertyDefinitions?: Record<string, ComponentPropertyDefinition>;
   }
 
-  interface ComponentSetNode extends FrameNode {
+  export interface ComponentSetNode extends FrameNode {
     // A mapping of name to
     // default: {}
     componentPropertyDefinitions?: Record<string, ComponentPropertyDefinition>;
@@ -473,7 +473,7 @@ declare namespace Figma {
     children: ComponentNode[];
   }
 
-  interface InstanceNode extends FrameNode {
+  export interface InstanceNode extends FrameNode {
     // ID of component that this instance came from, refers to
     componentId: string;
     // If true, this node has been marked as exposed to its containing component or component set
@@ -490,7 +490,7 @@ declare namespace Figma {
     overrides?: Overrides[];
   }
 
-  interface StickyNode extends Node {
+  export interface StickyNode extends Node {
     // Bounding box of the node in absolute space coordinates
     absoluteBoundingBox: Rectangle;
     // The bounds of the rendered node in the file in absolute space coordinates
@@ -522,7 +522,7 @@ declare namespace Figma {
     relativeTransform: Transform;
   }
 
-  interface ShapeWithTextNode extends Node {
+  export interface ShapeWithTextNode extends Node {
     // Bounding box of the node in absolute space coordinates
     absoluteBoundingBox: Rectangle;
     // The bounds of the rendered node in the file in absolute space coordinates
@@ -580,7 +580,7 @@ declare namespace Figma {
     styles: Record<StyleType, string>;
   }
 
-  interface ConnectorNode extends Node {
+  export interface ConnectorNode extends Node {
     // Bounding box of the node in absolute space coordinates
     absoluteBoundingBox: Rectangle;
     // The bounds of the rendered node in the file in absolute space coordinates
@@ -650,9 +650,9 @@ declare namespace Figma {
     styles: Record<StyleType, string>;
   }
 
-  interface WashiTapeNode extends VectorNode {}
+  export interface WashiTapeNode extends VectorNode {}
 
-  interface Color {
+  export interface Color {
     // Red channel value, between 0 and 1
     r: number;
     // Green channel value, between 0 and 1
@@ -663,7 +663,7 @@ declare namespace Figma {
     a: number;
   }
 
-  type ExportSetting = {
+  export type ExportSetting = {
     // File suffix to append to all filenames
     suffix: string;
     // Image type, string enum that supports values
@@ -672,14 +672,14 @@ declare namespace Figma {
     constraint: Constraint;
   };
 
-  type Constraint = {
+  export type Constraint = {
     // Type of constraint to apply; string enum with potential values below
     type: "SCALE" | "WIDTH" | "HEIGHT";
     // See
     value: number;
   };
 
-  type Rectangle = {
+  export type Rectangle = {
     // X coordinate of top left corner of the rectangle
     x: number;
     // Y coordinate of top left corner of the rectangle
@@ -690,7 +690,7 @@ declare namespace Figma {
     height: number;
   };
 
-  type ArcData = {
+  export type ArcData = {
     // Start of the sweep in radians
     startingAngle: number;
     // End of the sweep in radians
@@ -699,7 +699,7 @@ declare namespace Figma {
     innerRadius: number;
   };
 
-  type BlendMode =
+  export type BlendMode =
     | "PASS_THROUGH"
     | "NORMAL"
     | "DARKEN"
@@ -720,30 +720,30 @@ declare namespace Figma {
     | "COLOR"
     | "LUMINOSITY";
 
-  type MaskType = "ALPHA" | "VECTOR" | "LUMINANCE";
+  export type MaskType = "ALPHA" | "VECTOR" | "LUMINANCE";
 
-  type EasingType =
+  export type EasingType =
     | "EASE_IN"
     | "EASE_OUT"
     | "EASE_IN_AND_OUT"
     | "LINEAR"
     | "GENTLE_SPRING";
 
-  type FlowStartingPoint = {
+  export type FlowStartingPoint = {
     // Unique identifier specifying the frame
     nodeId: string;
     // Name of flow
     name: string;
   };
 
-  type LayoutConstraint = {
+  export type LayoutConstraint = {
     // Vertical constraint as an enum
     vertical: "TOP" | "BOTTOM" | "CENTER" | "TOP_BOTTOM" | "SCALE";
     // Horizontal constraint as an enum
     horizontal: "LEFT" | "RIGHT" | "CENTER" | "LEFT_RIGHT" | "SCALE";
   };
 
-  type LayoutGrid = {
+  export type LayoutGrid = {
     // Orientation of the grid as a string enum
     pattern: "COLUMNS" | "ROWS" | "GRID";
     // Width of column grid or height of row grid or square grid spacing
@@ -762,13 +762,13 @@ declare namespace Figma {
     count: number;
   };
 
-  type EffectType =
+  export type EffectType =
     | "INNER_SHADOW"
     | "DROP_SHADOW"
     | "LAYER_BLUR"
     | "BACKGROUND_BLUR";
 
-  type Effect<T extends EffectType = EffectType> = {
+  export type Effect<T extends EffectType = EffectType> = {
     // Type of effect as a string enum
     type: T;
     // Is the effect active?
@@ -788,26 +788,26 @@ declare namespace Figma {
     showShadowBehindNode: boolean;
   };
 
-  type NodeHyperlink = {
+  export type NodeHyperlink = {
     // Type of hyperlink
     type: "NODE";
     // ID of frame hyperlink points to, if NODE type
     nodeID: string;
   };
 
-  type Hyperlink = {
+  export type Hyperlink = {
     // Type of hyperlink
     type: "URL";
     // URL being linked to, if URL type
     url: string;
   };
 
-  type DocumentationLink = {
+  export type DocumentationLink = {
     // Should be a valid URI (e.g.
     uri: string;
   };
 
-  type Paint<
+  export type Paint<
     T extends
       | "SOLID"
       | "GRADIENT_LINEAR"
@@ -824,7 +824,7 @@ declare namespace Figma {
       | "GRADIENT_DIAMOND"
       | "IMAGE"
       | "EMOJI"
-      | "VIDEO",
+      | "VIDEO"
   > = {
     // Type of paint as a string enum
     type: T;
@@ -863,23 +863,23 @@ declare namespace Figma {
     boundVariables?: Record<string, VariableAlias>;
   };
 
-  type Vector = {
+  export type Vector = {
     // X coordinate of the vector
     x: number;
     // Y coordinate of the vector
     y: number;
   };
 
-  type Size = {
+  export type Size = {
     // the width of a size
     width: number;
     // the height of a size
     height: number;
   };
 
-  type Transform = [[number, number, number], [number, number, number]];
+  export type Transform = [[number, number, number], [number, number, number]];
 
-  type ImageFilters = {
+  export type ImageFilters = {
     // default: 0
     exposure?: number;
     // default: 0
@@ -896,28 +896,28 @@ declare namespace Figma {
     shadows?: number;
   };
 
-  type FrameOffset = {
+  export type FrameOffset = {
     // Unique id specifying the frame.
     node_id: string;
     // 2d vector offset within the frame.
     node_offset: Vector;
   };
 
-  type ColorStop = {
+  export type ColorStop = {
     // Value between 0 and 1 representing position along gradient axis
     position: number;
     // Color attached to corresponding position
     color: Color;
   };
 
-  type PaintOverride = {
+  export type PaintOverride = {
     // Paints applied to characters
     fills: Paint[];
     // ID of style node, if any, that this inherits fill data from
     inheritFillStyleId: string;
   };
 
-  type TypeStyle = {
+  export type TypeStyle = {
     // Font family of text (standard name)
     fontFamily: string;
     // PostScript font name
@@ -977,7 +977,7 @@ declare namespace Figma {
   };
 
   // from files/:file_key or files/:file_key/nodes
-  type ComponentMetadata = {
+  export type ComponentMetadata = {
     // The key of the component
     key: string;
     // The name of the component
@@ -993,7 +993,10 @@ declare namespace Figma {
   };
 
   // from :file_key/components
-  type Component = Omit<ComponentMetadata, "remote" | "documentationLinks"> & {
+  export type Component = Omit<
+    ComponentMetadata,
+    "remote" | "documentationLinks"
+  > & {
     // File Key
     file_key: string;
     // The node_id in the file
@@ -1010,7 +1013,7 @@ declare namespace Figma {
     containing_frame?: ComponentFrameInfo;
   };
 
-  type ComponentSetMetadata = {
+  export type ComponentSetMetadata = {
     // The key of the component set
     key: string;
     // The name of the component set
@@ -1021,7 +1024,10 @@ declare namespace Figma {
     documentationLinks: DocumentationLink[];
   };
 
-  type ComponentSet = Omit<ComponentSetMetadata, "documentationLinks"> & {
+  export type ComponentSet = Omit<
+    ComponentSetMetadata,
+    "documentationLinks"
+  > & {
     // File Key
     file_key: string;
     // The node_id in the file
@@ -1037,7 +1043,7 @@ declare namespace Figma {
   };
 
   // This is present in response from the file or nodes API and is slightly different to response to the styles API
-  type StyleMetadata = {
+  export type StyleMetadata = {
     // The key of the style
     key: string;
     // The name of the style
@@ -1050,7 +1056,7 @@ declare namespace Figma {
     description: string;
   };
 
-  type Style = {
+  export type Style = {
     // The key of the style
     key: string;
     // File Key
@@ -1081,7 +1087,7 @@ declare namespace Figma {
     sort_position: string;
   };
 
-  type ShapeType = {
+  export type ShapeType = {
     SQUARE: string;
     ELLIPSE: string;
     ROUNDED_RECTANGLE: string;
@@ -1113,7 +1119,7 @@ declare namespace Figma {
     INTERNAL_STORAGE: string;
   };
 
-  type ParentLike =
+  export type ParentLike =
     | Figma.DocumentNode
     | Figma.FrameNode
     | Figma.GroupNode
@@ -1121,7 +1127,7 @@ declare namespace Figma {
     | Figma.ComponentSetNode
     | Figma.InstanceNode;
 
-  type BoxLike =
+  export type BoxLike =
     | Figma.FrameNode
     | Figma.GroupNode
     | Figma.SectionNode
@@ -1136,7 +1142,7 @@ declare namespace Figma {
     | Figma.StarNode
     | Figma.RectangleNode;
 
-  type FrameLike =
+  export type FrameLike =
     | Figma.FrameNode
     | Figma.GroupNode
     | Figma.ComponentNode
@@ -1144,14 +1150,14 @@ declare namespace Figma {
     | Figma.InstanceNode
     | Figma.RectangleNode;
 
-  type FlexLike =
+  export type FlexLike =
     | Figma.FrameNode
     | Figma.GroupNode
     | Figma.ComponentNode
     | Figma.ComponentSetNode
     | Figma.InstanceNode;
 
-  type SvgLike =
+  export type SvgLike =
     | Figma.RegularPolygonNode
     | Figma.StarNode
     | Figma.LineNode
@@ -1159,7 +1165,7 @@ declare namespace Figma {
     | Figma.VectorNode
     | Figma.BooleanOperationNode;
 
-  type FillLike =
+  export type FillLike =
     | Figma.FrameNode
     | Figma.SectionNode
     | Figma.GroupNode
@@ -1167,7 +1173,7 @@ declare namespace Figma {
     | Figma.TypeStyle
     | Figma.ShapeWithTextNode;
 
-  type ConnectorEndpoint = {
+  export type ConnectorEndpoint = {
     // Canvas location as x & y coordinate.
     position: Vector;
     // Node ID this endpoint attaches to.
@@ -1176,19 +1182,19 @@ declare namespace Figma {
     magnet: ConnectorMagnet;
   };
 
-  type ConnectorLineType = {
+  export type ConnectorLineType = {
     ELBOWED: string;
     STRAIGHT: string;
   };
 
-  type ConnectorTextBackground = {
+  export type ConnectorTextBackground = {
     // Radius of each corner of the rectangle if a single radius is set for all corners
     cornerRadius: CornerRadius;
     // An array of fill paints applied to the node
     fills: Paint[];
   };
 
-  type ComponentPropertyDefinition = {
+  export type ComponentPropertyDefinition = {
     // Type of this component property
     type: ComponentPropertyType;
     // Initial value of this property for instances
@@ -1199,14 +1205,14 @@ declare namespace Figma {
     preferredValues?: InstanceSwapPreferredValue[];
   };
 
-  type BooleanPropertyDefinition = {
+  export type BooleanPropertyDefinition = {
     // Type of this component property
     type: "BOOLEAN";
     // Initial value of this property for instances
     defaultValue: boolean;
   };
 
-  type VariantPropertyDefinition = {
+  export type VariantPropertyDefinition = {
     // Type of this component property
     type: "VARIANT";
     // Initial value of this property for instances
@@ -1215,14 +1221,14 @@ declare namespace Figma {
     variantOptions: string[];
   };
 
-  type InstanceSwapPropertyDefinition = {
+  export type InstanceSwapPropertyDefinition = {
     // Type of this component property
     type: "INSTANCE_SWAP";
     // List of user-defined preferred values for this property. Only exists on INSTANCE_SWAP properties
     preferredValues?: InstanceSwapPreferredValue[];
   };
 
-  type ComponentProperty = {
+  export type ComponentProperty = {
     // Type of this component property
     type: ComponentPropertyType;
     // Value of this property set on this instance
@@ -1233,23 +1239,27 @@ declare namespace Figma {
     boundVariables: Record<string, VariableAlias>;
   };
 
-  type ComponentPropertyType = "BOOLEAN" | "INSTANCE_SWAP" | "TEXT" | "VARIANT";
+  export type ComponentPropertyType =
+    | "BOOLEAN"
+    | "INSTANCE_SWAP"
+    | "TEXT"
+    | "VARIANT";
 
-  type InstanceSwapPreferredValue = {
+  export type InstanceSwapPreferredValue = {
     // Type of node for this preferred value
     type: "COMPONENT" | "COMPONENT_SET";
     // Key of this component or component set
     key: string;
   };
 
-  type PrototypeDevice = {
+  export type PrototypeDevice = {
     type: "NONE";
     size: Size;
     presetIdentifier: string;
     rotation: "NONE";
   };
 
-  type StrokeWeights = {
+  export type StrokeWeights = {
     // The top stroke weight
     top: number;
     // The right stroke weight
@@ -1260,31 +1270,31 @@ declare namespace Figma {
     left: number;
   };
 
-  type Overrides = {
+  export type Overrides = {
     // A unique ID for a node
     id: string;
     // An array of properties
     overriddenFields: string[];
   };
 
-  type VariableAlias = {
+  export type VariableAlias = {
     // Value is always VARIABLE_ALIAS.
     type: "VARIABLE_ALIAS";
     // The id of the variable that the current variable is aliased to. This variable can be a local or remote variable, and both can be retrieved via the GET /v1/files/:file_key/variables/local endpoint.
     id: string;
   };
 
-  type StyleType = "FILL" | "TEXT" | "EFFECT" | "GRID";
+  export type StyleType = "FILL" | "TEXT" | "EFFECT" | "GRID";
 
-  type ConnectorMagnet = "AUTO" | "TOP" | "BOTTOM" | "LEFT" | "RIGHT";
+  export type ConnectorMagnet = "AUTO" | "TOP" | "BOTTOM" | "LEFT" | "RIGHT";
 
-  type Path = {
+  export type Path = {
     windingRule: "NONZERO" | "EVENODD";
     path: string;
   };
-  type CornerRadius = number[];
+  export type CornerRadius = number[];
 
-  type ComponentSetFrameInfo = {
+  export type ComponentSetFrameInfo = {
     // the pageId of the containing frame
     pageId: string;
     // the pageName of the containing frame
@@ -1302,7 +1312,7 @@ declare namespace Figma {
     backgroundColor?: string;
   };
 
-  type ComponentFrameInfo = {
+  export type ComponentFrameInfo = {
     // Also includes information about the component set
     containingStateGroup?: {
       // the node_id of the containing set
@@ -1312,7 +1322,7 @@ declare namespace Figma {
     };
   } & ComponentSetFrameInfo;
 
-  type VariableFloatScope =
+  export type VariableFloatScope =
     | "ALL_SCOPES"
     | "TEXT_CONTENT"
     | "WIDTH_HEIGHT"
@@ -1321,7 +1331,7 @@ declare namespace Figma {
     | "OPACITY"
     | "EFFECT_FLOAT";
 
-  type VariableColorScope =
+  export type VariableColorScope =
     | "ALL_SCOPES"
     | "ALL_FILLS"
     | "FRAME_FILL"
@@ -1330,11 +1340,13 @@ declare namespace Figma {
     | "STROKE_COLOR"
     | "EFFECT_COLOR";
 
-  type VariableResolvedType = "FLOAT" | "COLOR" | "STRING" | "BOOLEAN";
+  export type VariableResolvedType = "FLOAT" | "COLOR" | "STRING" | "BOOLEAN";
 
-  type Platform = "WEB" | "ANDROID" | "IOS";
+  export type Platform = "WEB" | "ANDROID" | "IOS";
 
-  interface Variable<T extends VariableResolvedType = VariableResolvedType> {
+  export interface Variable<
+    T extends VariableResolvedType = VariableResolvedType
+  > {
     id: string;
     name: string;
     remote: boolean;
@@ -1349,17 +1361,17 @@ declare namespace Figma {
     scopes: T extends "FLOAT"
       ? VariableFloatScope[] | ["ALL_SCOPES"]
       : T extends "COLOR"
-        ? VariableColorScope[] | ["ALL_FILLS"] | ["ALL_SCOPES"]
-        : never;
+      ? VariableColorScope[] | ["ALL_FILLS"] | ["ALL_SCOPES"]
+      : never;
     codeSyntax: Partial<Record<Platform, string>>;
   }
 
-  interface VariableCollectionMode {
+  export interface VariableCollectionMode {
     modeId: string;
     name: string;
   }
 
-  interface VariableCollection {
+  export interface VariableCollection {
     defaultModeId: string;
     id: string;
     name: string;
@@ -1372,7 +1384,7 @@ declare namespace Figma {
 
   // Dev Resources
 
-  interface DevResource {
+  export interface DevResource {
     id: string;
     name: string;
     file_key: string;
@@ -1381,33 +1393,35 @@ declare namespace Figma {
   }
 
   // For API responses
-  namespace Api {
+  export namespace Api {
     //files/{key}
-    interface FilesResult extends _FileMeta, FileData<Figma.DocumentNode> {}
+    export interface FilesResult
+      extends _FileMeta,
+        FileData<Figma.DocumentNode> {}
 
     //files/{key}/components
-    interface ComponentsResult
+    export interface ComponentsResult
       extends _MetaResult<{
         components: Figma.Component[];
       }> {}
 
     //components/{key}
-    interface ComponentResult extends _MetaResult<Figma.Component> {}
+    export interface ComponentResult extends _MetaResult<Figma.Component> {}
 
     //files/{key}/component_sets
-    interface ComponentSetsResult
+    export interface ComponentSetsResult
       extends _MetaResult<{
         component_sets: Figma.ComponentSet[];
       }> {}
 
     //files/{key}/styles
-    interface StylesResult
+    export interface StylesResult
       extends _MetaResult<{
         styles: Figma.Style[];
       }> {}
 
     //images/{file_key}?ids=[]
-    interface ImagesResult {
+    export interface ImagesResult {
       images: {
         [nodeId: string]: string;
       };
@@ -1415,7 +1429,7 @@ declare namespace Figma {
       status?: number;
     }
     //images/{file_key}?ids=[]
-    interface ImageFillsResult
+    export interface ImageFillsResult
       extends _MetaResult<{
         images: {
           [nodeId: string]: string;
@@ -1423,7 +1437,7 @@ declare namespace Figma {
       }> {}
 
     //files/{key}/variables/local
-    interface VariableResult
+    export interface VariableResult
       extends _MetaResult<{
         variables: {
           [variableId: string]: Variable;
@@ -1435,7 +1449,7 @@ declare namespace Figma {
 
     //files/{key}/nodes
     // default to Figma.CanvasNode for convenience, could be anything and can be a union of all/some node types
-    interface NodesResult<T extends Figma.Node = Figma.CanvasNode>
+    export interface NodesResult<T extends Figma.Node = Figma.CanvasNode>
       extends _FileMeta {
       nodes: {
         [FNodeId: string]: FileData<T>;
@@ -1443,11 +1457,11 @@ declare namespace Figma {
     }
 
     //files/{key}/dev_resources
-    interface DevResourcesResult {
+    export interface DevResourcesResult {
       dev_resources: DevResource[];
     }
 
-    interface FileData<T extends Figma.Node = Figma.CanvasNode> {
+    export interface FileData<T extends Figma.Node = Figma.CanvasNode> {
       document: T;
       components: { [nodeId: string]: Figma.ComponentMetadata };
       componentSets: { [nodeId: string]: Figma.ComponentSetMetadata };
@@ -1458,7 +1472,7 @@ declare namespace Figma {
     }
 
     // Private utility types
-    interface _FileMeta {
+    export interface _FileMeta {
       name: string;
       lastModified: string;
       thumbnailUrl: string;
@@ -1467,7 +1481,7 @@ declare namespace Figma {
       editorType: string;
       linkAccess: string;
     }
-    interface _MetaResult<T extends {}> {
+    export interface _MetaResult<T extends {}> {
       status?: number;
       error: Boolean;
       meta: T;

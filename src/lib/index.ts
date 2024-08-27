@@ -1,2 +1,4 @@
-export { collection } from "./collection";
-export { variable } from "./variable";
+/// <reference path="../figma-variables.types.ts" />
+/// <reference path="../figma.types.ts" />
+export { collection } from "./core/collection";
+export { variable } from "./core/variable";
