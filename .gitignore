@@ -6,3 +6,4 @@ coverage
 src/_gen/
 build
 .vscode
+*.tgz
