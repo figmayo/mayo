@@ -10,7 +10,7 @@
   "packageManager": "npm@10.1.0",
   "main": "build/lib/index.js",
   "scripts": {
-    "clean-build": "rimraf -rf ./build",
+    "clean-build": "rimraf -rf ./build && node bin/mayo reset",
     "compile:cli": "tsc -p tsconfig.cli.json",
     "compile:lib": "tsc -p tsconfig.lib.json",
     "compile": "npm run compile:cli && npm run compile:lib",
