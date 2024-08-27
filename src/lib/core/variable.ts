@@ -2,7 +2,7 @@ import { variables, VariableTypes } from ".";
 import { Collection } from "./collection";
 import { figmaColorToHex, figmaColorToRgba, pixelfyValue } from "./utils";
 
-import { isVariableAlias } from "../../figma.guards";
+import { isVariableAlias } from "../figma.guards";
 import Multiton from "./multiton";
 
 export class Variable

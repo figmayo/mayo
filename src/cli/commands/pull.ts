@@ -19,11 +19,17 @@ const command: GluegunCommand = {
 
     let data: any;
 
+    const destPath = `${GEN_PATH}/data.json`;
+
     if (parameters.options.file) {
       const filePath = parameters.options.file;
       if (filesystem.exists(filePath)) {
         data = filesystem.read(filePath, "json");
-        print.info(green(`Data successfully loaded from file: ${filePath}`));
+        print.info(
+          green(
+            `Data successfully loaded from file: ${filePath} into ${destPath}`
+          )
+        );
       } else {
         print.error(red(`File not found: ${filePath}`));
         return;
@@ -41,7 +47,7 @@ const command: GluegunCommand = {
       }
     }
 
-    filesystem.write(`${GEN_PATH}/data.json`, data);
+    filesystem.write(destPath, data);
   },
 };
 

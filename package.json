@@ -26,7 +26,9 @@
     "LICENSE",
     "readme.md",
     "docs",
-    "bin"
+    "bin",
+    "src/lib",
+    "src/_gen"
   ],
   "license": "MIT",
   "dependencies": {

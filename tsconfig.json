@@ -25,8 +25,8 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "figma-variables.types": ["src/figma-variables.types.ts"],
-      "figma.types": ["src/figma.types.ts"]
+      "figma-variables.types": ["src/lib/figma-variables.types.ts"],
+      "figma.types": ["src/lib/figma.types.ts"]
     }
   },
   "include": ["src/**/*"],
