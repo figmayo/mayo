@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { collection } from "../src/lib/collection";
+import { collection } from "../src/lib";
 
 it("should read via collection", () => {
   const c = collection("tests");
