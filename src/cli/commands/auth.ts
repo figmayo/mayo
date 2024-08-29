@@ -1,11 +1,11 @@
+import { GluegunCommand } from "gluegun";
 import { setPassword } from "keytar";
 import { green, yellow } from "kleur";
-import { GluegunCommand } from "gluegun";
 import { ACTIVE_KEY, PASSWORD_NAMESPACE, SITE_API } from "../../constants";
 
 const command: GluegunCommand = {
   name: "auth",
-  run: async ({ prompt, print, foo }) => {
+  run: async ({ prompt, print }) => {
     // Prompt for the API key
     const { apiKey } = await prompt.ask<{ apiKey: string }>({
       type: "input",

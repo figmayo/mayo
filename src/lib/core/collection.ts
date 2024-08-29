@@ -58,6 +58,7 @@ export const collection = <K extends keyof CollectionModes>(
   key: K,
   mode?: CollectionModes[K]
 ) => {
+  if (variables.status === 0) throw new Error("Run `mayo generate` first!");
   const c = Object.values(variables.meta.variableCollections).find(
     (v) => v.name === key
   );

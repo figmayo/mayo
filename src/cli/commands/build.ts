@@ -1,13 +1,18 @@
-import { GEN_PATH } from "../../constants";
 import { GluegunCommand } from "gluegun";
 import { green, red } from "kleur";
-import { execSync } from "child_process";
+import { GEN_PATH } from "../../constants";
+import { MayoToolbox } from "../types";
+import * as path from "path";
 
-const command: GluegunCommand = {
+const command: GluegunCommand<MayoToolbox> = {
   name: "build",
-  run: async ({ print, filesystem, typegen }) => {
+  run: async ({ print, filesystem, typegen, typescript }) => {
+    const srcDir = filesystem.findUp({
+      targetDir: "src",
+      startDir: __dirname,
+    });
     const localVariables = filesystem.read(
-      `${GEN_PATH}/data.json`,
+      filesystem.path(srcDir, `${GEN_PATH}/data.json`),
       "json"
     ) as Figma.Api.VariableResult;
 
@@ -44,9 +49,29 @@ const command: GluegunCommand = {
             localVariables.meta.variables
           )
       )
-      .then(() => execSync(`npm run compile:lib`, { stdio: "inherit" }));
+      .then(() => {
+        typescript.compile({
+          projectPath: "tsconfig.lib.json",
+        });
 
-    print.success(green("Build complete! Your project is ready."));
+        const srcPath = path.join(srcDir, `${GEN_PATH}/data.json`);
+        filesystem.copy(
+          srcPath,
+          path.join(
+            __dirname,
+            "..",
+            "..",
+            "..",
+            "build",
+            GEN_PATH,
+            "data.json"
+          ),
+          {
+            overwrite: true,
+          }
+        );
+        print.success(green("Build complete! Your project is ready."));
+      });
   },
 };
 

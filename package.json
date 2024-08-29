@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "description": "mayo CLI",
   "private": true,
-  "types": "build/types/types.d.ts",
+  "types": "build/lib/index.d.ts",
   "bin": {
     "mayo": "bin/mayo"
   },
   "packageManager": "npm@10.1.0",
   "main": "build/lib/index.js",
   "scripts": {
-    "clean-build": "rimraf -rf ./build && node bin/mayo reset",
+    "clean-build": "rimraf -rf ./build && ts-node ./scripts/reset",
     "compile:cli": "tsc -p tsconfig.cli.json",
     "compile:lib": "tsc -p tsconfig.lib.json",
     "compile": "npm run compile:cli && npm run compile:lib",
@@ -19,7 +19,8 @@
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
     "test": "vitest run",
     "watch": "vitest",
-    "snapupdate": "vitest --update"
+    "snapupdate": "vitest --update",
+    "dev": "node bin/mayo --dev --"
   },
   "files": [
     "build",
@@ -27,16 +28,21 @@
     "readme.md",
     "docs",
     "bin",
-    "src/lib",
-    "src/_gen"
+    "src",
+    "src",
+    "tsconfig.json",
+    "tsconfig.lib.json",
+    "tsconfig.cli.json"
   ],
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0",
     "gluegun": "latest",
     "keytar": "^7.9.0",
     "kleur": "^4.1.5",
-    "ky": "^1.7.1"
+    "ky": "^1.7.1",
+    "typescript": "~4.5.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
@@ -50,7 +56,6 @@
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "~4.5.0",
     "vitest": "^2.0.5"
   },
   "prettier": {},

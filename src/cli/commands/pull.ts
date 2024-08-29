@@ -1,9 +1,10 @@
-import { red, green } from "kleur";
 import { GluegunCommand } from "gluegun";
 import { getPassword } from "keytar";
+import { green, red } from "kleur";
 import { ACTIVE_KEY, GEN_PATH, PASSWORD_NAMESPACE } from "../../constants";
+import { MayoToolbox } from "../types";
 
-const command: GluegunCommand = {
+const command: GluegunCommand<MayoToolbox> = {
   name: "pull",
   run: async ({ parameters, print, filesystem }) => {
     // Retrieve the API key
@@ -18,8 +19,12 @@ const command: GluegunCommand = {
     }
 
     let data: any;
-
-    const destPath = `${GEN_PATH}/data.json`;
+    filesystem.find;
+    const srcDir = filesystem.findUp({
+      targetDir: "src",
+      startDir: __dirname,
+    });
+    const destPath = filesystem.path(srcDir, `${GEN_PATH}/data.json`);
 
     if (parameters.options.file) {
       const filePath = parameters.options.file;

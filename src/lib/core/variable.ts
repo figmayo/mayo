@@ -136,6 +136,7 @@ const typeMap = {
 export const variable = <K extends keyof VariableTypes>(
   key: K
 ): VariableTypes[K] => {
+  if (variables.status === 0) throw new Error("Run `mayo generate` first!");
   const v = Object.values(variables.meta.variables).find((v) => v.name === key);
 
   if (v === undefined) throw new Error(`Variable ${key} not found`);

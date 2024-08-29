@@ -1,3 +1,5 @@
+/// <reference path="../lib/figma-variables.types.ts" />
+/// <reference path="../lib/figma.types.ts" />
 import { build } from "gluegun";
 
 /**

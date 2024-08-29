@@ -29,7 +29,7 @@
       "figma.types": ["src/lib/figma.types.ts"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "scripts/**/*"],
   "exclude": ["./node_modules", "__tests__/**/*"],
   "ts-node": {
     "files": true
