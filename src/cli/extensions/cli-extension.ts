@@ -1,4 +1,3 @@
-import { reset } from "../reset";
 import * as typegen from "../typegen";
 import { MayoToolbox } from "../types";
 import * as typescript from "../typescript";
@@ -33,6 +32,5 @@ module.exports = (toolbox: MayoToolbox) => {
   }
   toolbox.typegen = typegen;
   toolbox.typescript = typescript;
-  toolbox.reset = reset;
   toolbox.filesystem.findUp = findUp;
 };

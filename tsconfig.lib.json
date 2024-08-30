@@ -1,10 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "noEmit": false
   },
-  "include": ["src/lib/**/*"]
+  "include": ["./src/lib/**/*", "./_gen"]
 }

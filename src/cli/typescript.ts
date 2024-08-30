@@ -1,47 +1,53 @@
-import path = require("path");
 import * as ts from "typescript";
 
 type CompileTSOptions = {
   projectPath?: string;
   additionalOptions?: ts.CompilerOptions;
+  include?: string[];
+  extendsOverride?: string;
 };
-
+type CompiledFile = {
+  fileName: string;
+  content: string;
+};
 type CompileTSResult = {
   success: boolean;
   diagnostics: readonly ts.Diagnostic[];
+  outputFiles: CompiledFile[];
 };
 
 export const compile = ({
   projectPath = "./tsconfig.json",
   additionalOptions = {},
+  include,
+  extendsOverride,
 }: CompileTSOptions): CompileTSResult => {
   const tsConfigPath = ts.findConfigFile(
     __dirname,
     ts.sys.fileExists,
     projectPath
   );
-  console.log("tsConfigPath", tsConfigPath);
+
   // Read and parse the tsconfig.json file
   const configFile = ts.readConfigFile(tsConfigPath!, ts.sys.readFile);
   const tsconfig = configFile.config;
 
-  if (tsconfig.include && Array.isArray(tsconfig.include)) {
-    tsconfig.include = tsconfig.include.map((includePath) => {
-      return path.relative(__dirname, path.resolve(__dirname, includePath));
-    });
-  }
   const parsedConfig = ts.parseJsonConfigFileContent(
     {
       ...tsconfig,
+      extends: extendsOverride || tsconfig.extends,
       compilerOptions: {
         ...tsconfig.compilerOptions,
         ...additionalOptions,
       },
+      include: include || tsconfig.include,
     },
     ts.sys,
     process.cwd()
   );
-  console.log("parsedConfig", parsedConfig);
+
+  // Capture output files
+  const outputFiles: CompiledFile[] = [];
 
   // Create a program with the root files and compiler options
   const program = ts.createProgram(
@@ -50,7 +56,10 @@ export const compile = ({
   );
 
   // Emit the compiled files
-  const emitResult = program.emit();
+  const emitResult = program.emit(undefined, (fileName, content) => {
+    console.log(`Capturing file: ${fileName}`); // Debugging line
+    outputFiles.push({ fileName, content });
+  });
 
   // Collect and return diagnostics
   const allDiagnostics = ts
@@ -60,5 +69,6 @@ export const compile = ({
   return {
     success: !emitResult.emitSkipped,
     diagnostics: allDiagnostics,
+    outputFiles,
   };
 };

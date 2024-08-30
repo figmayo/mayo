@@ -2,13 +2,16 @@ import { GluegunCommand } from "gluegun";
 import { green, red } from "kleur";
 import { GEN_PATH } from "../../constants";
 import { MayoToolbox } from "../types";
-import * as path from "path";
 
 const command: GluegunCommand<MayoToolbox> = {
   name: "build",
   run: async ({ print, filesystem, typegen, typescript }) => {
     const srcDir = filesystem.findUp({
       targetDir: "src",
+      startDir: __dirname,
+    });
+    const buildDir = filesystem.findUp({
+      targetDir: "build",
       startDir: __dirname,
     });
     const localVariables = filesystem.read(
@@ -25,7 +28,7 @@ const command: GluegunCommand<MayoToolbox> = {
 
     filesystem
       .writeAsync(
-        `${GEN_PATH}/types.ts`,
+        filesystem.path(srcDir, `${GEN_PATH}/types.ts`),
         typegen.generateVariableTypeDefinitions(localVariables.meta.variables) +
           typegen.generateColorVariableTypeDefinitions(
             localVariables.meta.variables
@@ -50,26 +53,29 @@ const command: GluegunCommand<MayoToolbox> = {
           )
       )
       .then(() => {
-        typescript.compile({
+        const { outputFiles } = typescript.compile({
           projectPath: "tsconfig.lib.json",
+          extendsOverride: filesystem.path(srcDir, "..", `tsconfig.json`),
+          include: [
+            filesystem.path(srcDir, `lib/**/*`),
+            filesystem.path(srcDir, `_gen/types.ts`),
+          ],
+          additionalOptions: {
+            outDir: buildDir,
+            baseUrl: srcDir,
+            noEmit: false,
+          },
         });
 
-        const srcPath = path.join(srcDir, `${GEN_PATH}/data.json`);
-        filesystem.copy(
-          srcPath,
-          path.join(
-            __dirname,
-            "..",
-            "..",
-            "..",
-            "build",
-            GEN_PATH,
-            "data.json"
-          ),
-          {
-            overwrite: true,
-          }
-        );
+        outputFiles.forEach(({ fileName, content }) => {
+          filesystem.write(fileName, content);
+        });
+
+        const srcPath = filesystem.path(srcDir, `${GEN_PATH}/data.json`);
+        const buildPath = filesystem.path(buildDir, `${GEN_PATH}/data.json`);
+        filesystem.copy(srcPath, buildPath, {
+          overwrite: true,
+        });
         print.success(green("Build complete! Your project is ready."));
       });
   },
