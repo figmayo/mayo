@@ -17,12 +17,24 @@ export const resolveType = (figmaType: Figma.Variable["resolvedType"]) => {
  * Generate return type definitions for each Figma variable
  */
 export const generateVariableTypeDefinitions = (
-  variables: Record<string, Figma.Variable>
+  collections: Record<string, Figma.VariableCollection>,
+  variables: Record<string, Figma.Variable>,
+  siteId?: string
 ) => {
   const types = Object.values(variables)
     .map((variable) => {
       const type = variable.resolvedType; // Assuming 'type' is the property that contains type info
-      return `    "${variable.name}": ${resolveType(type)};`;
+      const collection = collections[variable.variableCollectionId];
+      return `/**
+        * ${collection.name}/${variable.name}
+        ${variable.description.length > 0 ? `* ${variable.description}` : ""}
+        ${
+          siteId
+            ? `* For more details, see [the documentation](https://app.figmayo.com/site/${siteId}/variables?key=${variable.key}).`
+            : ""
+        }
+      */
+      \n"${variable.name}": ${resolveType(type)};`;
     })
     .join("\n");
 

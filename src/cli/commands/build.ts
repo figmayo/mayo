@@ -1,11 +1,13 @@
 import { GluegunCommand } from "gluegun";
 import { green, red } from "kleur";
-import { GEN_PATH } from "../../constants";
+import { ACTIVE_KEY, GEN_PATH, PASSWORD_NAMESPACE } from "../../constants";
 import { MayoToolbox } from "../types";
+import { getPassword } from "keytar";
 
 const command: GluegunCommand<MayoToolbox> = {
   name: "build",
   run: async ({ print, filesystem, typegen, typescript }) => {
+    const active = await getPassword(PASSWORD_NAMESPACE, ACTIVE_KEY);
     const srcDir = filesystem.findUp({
       targetDir: "src",
       startDir: __dirname,
@@ -29,7 +31,11 @@ const command: GluegunCommand<MayoToolbox> = {
     filesystem
       .writeAsync(
         filesystem.path(srcDir, `${GEN_PATH}/types.ts`),
-        typegen.generateVariableTypeDefinitions(localVariables.meta.variables) +
+        typegen.generateVariableTypeDefinitions(
+          localVariables.meta.variableCollections,
+          localVariables.meta.variables,
+          active
+        ) +
           typegen.generateColorVariableTypeDefinitions(
             localVariables.meta.variables
           ) +

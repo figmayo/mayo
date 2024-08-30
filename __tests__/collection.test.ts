@@ -1,11 +1,11 @@
 import { expect, it } from "vitest";
-import { collection } from "../src/lib";
+import { collection, variable } from "../src/lib";
 
 it("should read via collection", () => {
   const c = collection("tests");
-  const v = c.variable("brand-name");
+  const v = variable("brand-name");
   expect(String(v)).toEqual("FigMayo");
   // switch collection mode
   c.mode("Brand");
-  expect(String(c.mode("Brand").variable("brand-name"))).toBe("Other");
+  expect(String(variable("icon/default/default"))).toBe("Other");
 });

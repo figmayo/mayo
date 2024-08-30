@@ -41,9 +41,12 @@ const command: GluegunCommand<MayoToolbox> = {
       }
     } else {
       try {
-        const response = await fetch("https://your-server.com/data", {
-          headers: { Authorization: `Bearer ${apiKey}` },
-        });
+        const response = await fetch(
+          "https://app.figmayo.com/api/v2/plugin/variables",
+          {
+            headers: { Authorization: `Bearer ${apiKey}` },
+          }
+        );
         data = await response.json();
         print.info(green("Data successfully pulled from the server."));
       } catch (error) {
