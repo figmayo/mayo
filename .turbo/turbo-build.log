@@ -1,0 +1,61 @@
+
+> @figmayo/mayo@0.0.4 build
+> npm run clean-build && npm run compile
+
+
+> @figmayo/mayo@0.0.4 clean-build
+> node bin/mayo reset --dev && rimraf -rf ./build
+
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma-variables.types.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma-variables.types.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma.guards.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma.guards.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma.types.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/figma.types.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/_gen/data.json
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/_gen/types.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/_gen/types.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/index.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/index.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/multiton.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/multiton.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/utils.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/utils.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/variable.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/variable.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/collection.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/core/collection.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/react/useCollection.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/react/useCollection.d.ts
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/index.js
+Capturing file: /Users/mikemiller/Code/figmayo-alpha/packages/mayo/build/lib/index.d.ts
+[32mReset complete![39m
+
+> @figmayo/mayo@0.0.4 compile
+> npm run compile:cli && npm run compile:lib
+
+
+> @figmayo/mayo@0.0.4 compile:cli
+> tsc -p tsconfig.cli.json
+
+../../node_modules/@types/lodash/common/object.d.ts(1026,46): error TS1005: '?' expected.
+../../node_modules/@types/lodash/common/object.d.ts(1031,46): error TS1005: '?' expected.
+../../node_modules/@types/lodash/common/object.d.ts(1041,46): error TS1005: '?' expected.
+npm error Lifecycle script `compile:cli` failed with error:
+npm error code 2
+npm error path /Users/mikemiller/Code/figmayo-alpha/packages/mayo
+npm error workspace @figmayo/mayo@0.0.4
+npm error location /Users/mikemiller/Code/figmayo-alpha/packages/mayo
+npm error command failed
+npm error command sh -c tsc -p tsconfig.cli.json
+npm error Lifecycle script `compile` failed with error:
+npm error code 2
+npm error path /Users/mikemiller/Code/figmayo-alpha/packages/mayo
+npm error workspace @figmayo/mayo@0.0.4
+npm error location /Users/mikemiller/Code/figmayo-alpha/packages/mayo
+npm error command failed
+npm error command sh -c npm run compile:cli && npm run compile:lib
+npm ERR! Lifecycle script `build` failed with error: 
+npm ERR! Error: command failed 
+npm ERR!   in workspace: @figmayo/mayo@0.0.4 
+npm ERR!   at location: /Users/mikemiller/Code/figmayo-alpha/packages/mayo 
